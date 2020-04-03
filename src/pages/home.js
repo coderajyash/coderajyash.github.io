@@ -1,12 +1,59 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router,Route, NavLink } from 'react-router-dom';
-
+import axios from 'axios';
 class home extends Component{
   
-    render() 
+  constructor(props){
+    super(props);
+    this.state = {
+      confirm:2354,
+      recover:191,
+      death:58
+    }
+  }
+  componentDidMount()
+  {  
+    
+    var today = new Date();
+    var date_v = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    
+
+
+    axios.get('https://pomber.github.io/covid19/timeseries.json')
+    .then(response => response.json())
+  .then(data => {
+    data["India"].forEach(({ date, confirmed, recovered, deaths }) =>{
+      
+     if({date}==date_v){
+       this.setState({
+         confirm:{confirmed},
+         recover:{recovered},
+         death:deaths
+       })
+     }
+    }
+  
+    );
+  })
+    .catch(error=>{
+      console.log(error)
+    })
+  } 
+  
+
+  
+  
+
+
+
+
+
+
+  render() 
     
     
 {
+  const {confirm,recover,death}=this.state;
         return(
 
             <div className="home__wrapper">
@@ -37,9 +84,9 @@ class home extends Component{
              
                 <h2>Numbers in India</h2>
               <div className="home-block-3">
-              <div className="confirm"><h3>2541 </h3><div>Confirmed</div></div>
-              <div className="recover"><h3>191 </h3><div>Recovered</div></div>
-              <div className="death"><h3>58 </h3><div>Deaths</div></div>
+              <div className="confirm"><h3>{this.state.confirm}</h3><div>Confirmed</div></div>
+              <div className="recover"><h3>{this.state.recover} </h3><div>Recovered</div></div>
+              <div className="death"><h3>{this.state.death} </h3><div>Deaths</div></div>
               </div>
               <div className="bottom-text">
                <h4>Help Us , Stay At Home</h4>

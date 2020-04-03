@@ -6,7 +6,7 @@ import advisory from './pages/advisory';
 import pass from './pages/pass';
 import complain from './pages/complain';
 import help from './pages/help';
-
+import axios from 'axios';
 
 class App extends Component {
  
